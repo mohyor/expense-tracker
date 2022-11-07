@@ -14,7 +14,7 @@ public interface TransactionService {
 
  List<Transaction> getTransactions(Integer userID, Integer categoryID);
 
- Transaction getTransactionByiD(Integer userID, Integer categoryID, Integer transactionID)
+ Transaction getTransactionByID(Integer userID, Integer categoryID, Integer transactionID)
    throws ResourceNotFoundException;
 
  void updateTransaction(Integer userID, Integer categoryID, Integer transactionID, Transaction transaction)
