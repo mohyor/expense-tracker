@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImp implements UserService {
 
  @Autowired
  UserRepository userRepository;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
  @Override
  public User validateUser(String email, String password) throws AuthException {
 
-  if(email != null) {
+  if (email != null) {
    email = email.toLowerCase();
   }
 
@@ -31,18 +31,18 @@ public class UserServiceImpl implements UserService {
  public User registerUser(String firstName, String lastName, String email, String password) throws AuthException {
 
   Pattern pattern = Pattern.compile("^(.+)@(.+)$");
-  
-  if(email != null) {
+
+  if (email != null) {
    email = email.toLowerCase();
   }
 
-  if(!pattern.matcher(email).matches()) {
+  if (!pattern.matcher(email).matches()) {
    throw new AuthException("Invalid email format.");
   }
-  
+
   Integer count = userRepository.getCountByEmail(email);
 
-  if(count > 0) {
+  if (count > 0) {
    throw new AuthException("Email already exists");
   }
 

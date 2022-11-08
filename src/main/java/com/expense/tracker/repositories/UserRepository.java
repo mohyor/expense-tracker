@@ -1,5 +1,6 @@
 package com.expense.tracker.repositories;
 
+import com.expense.tracker.models.User;
 import com.expense.tracker.exceptions.AuthException;
 
 public interface UserRepository {

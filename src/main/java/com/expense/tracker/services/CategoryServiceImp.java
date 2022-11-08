@@ -4,6 +4,7 @@ import com.expense.tracker.models.Category;
 import com.expense.tracker.exceptions.BadRequestException;
 import com.expense.tracker.exceptions.ResourceNotFoundException;
 import com.expense.tracker.repositories.CategoryRepository;
+import com.expense.tracker.services.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CategoryServiceImp {
+public class CategoryServiceImp implements CategoryService {
 
  @Autowired
  CategoryRepository categoryRepository;
@@ -28,11 +29,16 @@ public class CategoryServiceImp {
   return categoryRepository.findByID(userID, categoryID);
  }
 
- @Override
- public addCategory(Integer userID, String title, String description) throws BadRequestException {
-  int categoryID = categoryRepository.create(userID, title, description);
-  return categoryRepository.findByID(userID, categoryID);
- }
+ /*
+  * @Override
+  * public addCategory(Integer userID, String title, String description) throws
+  * BadRequestException {
+  * 
+  * int categoryID = categoryRepository.create(userID, title, description);
+  * 
+  * return categoryRepository.findByID(userID, categoryID);
+  * }
+  */
 
  @Override
  public void updateCategory(Integer userID, Integer categoryID, Category category) throws BadRequestException {

@@ -4,6 +4,8 @@ import com.expense.tracker.models.Category;
 import com.expense.tracker.exceptions.BadRequestException;
 import com.expense.tracker.exceptions.ResourceNotFoundException;
 
+import java.util.List;
+
 public interface CategoryService {
 
  List<Category> fetchAllCategories(Integer userID);
