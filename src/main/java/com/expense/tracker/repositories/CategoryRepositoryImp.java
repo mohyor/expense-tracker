@@ -101,9 +101,9 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
 
         @Override
-        public void removeById(Integer userID, Integer categoryID) {
+        public void removeByID(Integer userID, Integer categoryID) {
                 this.removeAllCatTransactions(categoryID);
-                jbdcTemplate.update(SQL_DELETE_CATEGORY, new Object[] { userID, categoryID });
+                jdbcTemplate.update(SQL_DELETE_CATEGORY, new Object[] { userID, categoryID });
         }
 
         private void removeAllCatTransactions(Integer categoryID) {

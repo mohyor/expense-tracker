@@ -7,9 +7,10 @@ import com.expense.tracker.exceptions.ResourceNotFoundException;
 import com.expense.tracker.models.Category;
 
 public interface CategoryRepository {
+
  List<Category> findAll(Integer userID) throws ResourceNotFoundException;
 
- Category findById(Integer userID, Integer categoryID) throws ResourceNotFoundException;
+ Category findByID(Integer userID, Integer categoryID) throws ResourceNotFoundException;
 
  Integer create(Integer userID, String title, String description) throws BadRequestException;
 

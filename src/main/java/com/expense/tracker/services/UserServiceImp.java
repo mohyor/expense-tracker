@@ -48,6 +48,6 @@ public class UserServiceImp implements UserService {
 
   Integer userID = userRepository.create(firstName, lastName, email, password);
 
-  return userRepository.findById(userID);
+  return userRepository.findByID(userID);
  }
 }
