@@ -23,55 +23,55 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
- @Autowired
- UserService userService;
+  @Autowired
+  UserService userService;
 
- private Map<String, String> generateJWTToken(User user) {
+  private Map<String, String> generateJWTToken(User user) {
 
-  long timeStamp = System.currentTimeMillis();
+    long timeStamp = System.currentTimeMillis();
 
-  String token = Jwts
-    .builder()
-    .signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
+    String token = Jwts
+        .builder()
+        .signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
 
-    .setIssuedAt(new Date(timeStamp))
-    .setExpiration(new Date(timeStamp + Constants.TOKEN_VALIDITY))
+        .setIssuedAt(new Date(timeStamp))
+        .setExpiration(new Date(timeStamp + Constants.TOKEN_VALIDITY))
 
-    .claim("userID", user.getUserID())
-    .claim("email", user.getEmail())
-    .claim("firstName", user.getFirstName())
-    .claim("lastName", user.getLastName())
+        .claim("userID", user.getUserID())
+        .claim("email", user.getEmail())
+        .claim("firstName", user.getFirstName())
+        .claim("lastName", user.getLastName())
 
-    .compact();
+        .compact();
 
-  Map<String, String> map = new HashMap<>();
-  map.put("token", token);
+    Map<String, String> map = new HashMap<>();
+    map.put("token", token);
 
-  return map;
- }
+    return map;
+  }
 
- @PostMapping("/register")
- public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
+  @PostMapping("/register")
+  public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
 
-  String firstName = (String) userMap.get("firstName");
-  String lastName = (String) userMap.get("lastName");
-  String email = (String) userMap.get("email");
-  String password = (String) userMap.get("password");
+    String firstName = (String) userMap.get("firstName");
+    String lastName = (String) userMap.get("lastName");
+    String email = (String) userMap.get("email");
+    String password = (String) userMap.get("password");
 
-  User user = userService.registerUser(firstName, lastName, email, password);
-  return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
- }
+    User user = userService.registerUser(firstName, lastName, email, password);
+    return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
+  }
 
- @PostMapping("/login")
- public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
+  @PostMapping("/login")
+  public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
 
-  String email = (String) userMap.get("email");
-  String password = (String) userMap.get("password");
+    String email = (String) userMap.get("email");
+    String password = (String) userMap.get("password");
 
-  User user = userService.validateUser(email, password);
-  return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
- }
+    User user = userService.validateUser(email, password);
+    return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
+  }
 }
