@@ -23,7 +23,7 @@ import java.sql.Statement;
 @Repository
 public class UserRepositoryImp implements UserRepository {
 
-  private static final String SQL_CREATE = "INSERT INTO users(userID, firstName, lastName, email, password) VALUES(NEXTVAL('usersSeq'), ?, ?, ?, ?)";
+  private static final String SQL_CREATE = "INSERT INTO users(userID, firstName, lastName, email, password) VALUES( NEXTVAL('users_userid_seq'), ?, ?, ?, ?)";
 
   private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM users WHERE email = ?";
 
@@ -47,9 +47,11 @@ public class UserRepositoryImp implements UserRepository {
 
   @Override
   public Integer create(String firstName, String lastName, String email, String password) throws AuthException {
+
     String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
 
     try {
+
       KeyHolder keyHolder = new GeneratedKeyHolder();
 
       jdbcTemplate.update(connection -> {
@@ -60,11 +62,13 @@ public class UserRepositoryImp implements UserRepository {
         ps.setString(4, hashedPassword);
 
         return ps;
+
       }, keyHolder);
 
       return (Integer) keyHolder.getKeys().get("userID");
 
     } catch (Exception e) {
+
       throw new AuthException("Failed to create user");
     }
   }

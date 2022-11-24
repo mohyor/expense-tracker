@@ -18,3 +18,15 @@ public interface CategoryRepository {
 
  void removeByID(Integer userID, Integer categoryID);
 }
+
+/*
+ * CREATE TABLE IF NOT EXISTS users (
+ * userID serial NOT NULL PRIMARY KEY,
+ * firstName VARCHAR (150) NOT NULL,
+ * lastName VARCHAR (150) NOT NULL,
+ * password VARCHAR (150) NOT NULL,
+ * email VARCHAR (255) UNIQUE NOT NULL,
+ * created_on TIMESTAMP NOT NULL,
+ * last_login TIMESTAMP
+ * );
+ */

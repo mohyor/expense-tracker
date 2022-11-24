@@ -24,4 +24,10 @@ public interface UserRepository {
  * created_on TIMESTAMP NOT NULL,
  * last_login TIMESTAMP
  * );
+ * 
+ * CREATE SEQUENCE employee_seq
+ * START 10
+ * INCREMENT 5
+ * MINVALUE 10
+ * OWNED BY employee.emp_id;
  */

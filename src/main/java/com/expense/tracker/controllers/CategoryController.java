@@ -26,10 +26,13 @@ public class CategoryController {
   public ResponseEntity<Category> addCategory(HttpServletRequest req, @RequestBody Map<String, Object> categoryMap) {
 
     int userID = (Integer) req.getAttribute("userID");
+
     String title = (String) categoryMap.get("title");
+
     String description = (String) categoryMap.get("description");
 
     Category category = categoryService.addCategory(userID, title, description);
+
     return new ResponseEntity<>(category, HttpStatus.CREATED);
   }
 
@@ -39,6 +42,7 @@ public class CategoryController {
     int userID = (Integer) req.getAttribute("userID");
 
     List<Category> categories = categoryService.fetchAllCategories(userID);
+
     return new ResponseEntity<>(categories, HttpStatus.OK);
   }
 
@@ -49,6 +53,7 @@ public class CategoryController {
     int userID = (Integer) req.getAttribute("userID");
 
     Category category = categoryService.fetchCategoryByID(userID, categoryID);
+
     return new ResponseEntity<>(category, HttpStatus.OK);
   }
 
@@ -61,6 +66,7 @@ public class CategoryController {
     categoryService.updateCategory(userID, categoryID, category);
 
     Map<String, Boolean> map = new HashMap<>();
+
     map.put("success", true);
 
     return new ResponseEntity<>(map, HttpStatus.OK);
@@ -75,6 +81,7 @@ public class CategoryController {
     categoryService.removeCategoryWithAllTransactions(userID, categoryID);
 
     Map<String, Boolean> map = new HashMap<>();
+
     map.put("success", true);
 
     return new ResponseEntity<>(map, HttpStatus.OK);
