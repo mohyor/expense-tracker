@@ -7,5 +7,5 @@ public interface UserService {
 
  User validateUser(String email, String password) throws AuthException;
 
- User registerUser(String firstName, String lastName, String email, String password) throws AuthException;
+ User registerUser(String firstname, String lastname, String email, String password) throws AuthException;
 }

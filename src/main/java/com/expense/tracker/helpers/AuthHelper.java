@@ -18,40 +18,40 @@ import java.io.IOException;
 
 public class AuthHelper extends GenericFilterBean {
 
- @Override
- public void doFilter(ServletRequest req, ServletResponse res, FilterChain filter)
-   throws IOException, ServletException {
-  HttpServletRequest httpRequest = (HttpServletRequest) req;
-  HttpServletResponse httpResponse = (HttpServletResponse) res;
+  @Override
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain filter)
+      throws IOException, ServletException {
+    HttpServletRequest httpRequest = (HttpServletRequest) req;
+    HttpServletResponse httpResponse = (HttpServletResponse) res;
 
-  String authHeader = httpRequest.getHeader("Authorization");
+    String authHeader = httpRequest.getHeader("Authorization");
 
-  if (authHeader != null) {
-   String[] authHeaderArray = authHeader.split("Bearer ");
+    if (authHeader != null) {
+      String[] authHeaderArray = authHeader.split("Bearer ");
 
-   if (authHeaderArray.length > 1 && authHeaderArray[1] != null) {
-    String token = authHeaderArray[1];
+      if (authHeaderArray.length > 1 && authHeaderArray[1] != null) {
+        String token = authHeaderArray[1];
 
-    try {
-     Claims claims = Jwts
-       .parser()
-       .setSigningKey(Constants.API_SECRET_KEY)
-       .parseClaimsJws(token).getBody();
+        try {
+          Claims claims = Jwts
+              .parser()
+              .setSigningKey(Constants.API_SECRET_KEY)
+              .parseClaimsJws(token).getBody();
 
-     httpRequest.setAttribute("userID", Integer.parseInt(claims.get("userID").toString()));
-    } catch (Exception e) {
-     httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Invalid/Expired Token");
-     return;
+          httpRequest.setAttribute("user_id", Integer.parseInt(claims.get("user_id").toString()));
+        } catch (Exception e) {
+          httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Invalid/Expired Token");
+          return;
+        }
+      } else {
+        httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token should be Bearer [token]");
+        return;
+      }
+    } else {
+      httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token must be provided");
+      return;
     }
-   } else {
-    httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token should be Bearer [token]");
-    return;
-   }
-  } else {
-   httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token must be provided");
-   return;
-  }
 
-  filter.doFilter(req, res);
- }
+    filter.doFilter(req, res);
+  }
 }

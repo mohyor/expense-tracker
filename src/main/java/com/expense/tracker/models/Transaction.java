@@ -4,16 +4,16 @@ public class Transaction {
 
   private Integer transactionID;
   private Integer categoryID;
-  private Integer userID;
+  private Integer user_id;
   private Double amount;
   private String note;
   private Long transactionDate;
 
-  public Transaction(Integer transactionID, Integer categoryID, Integer userID, Double amount, String note,
+  public Transaction(Integer transactionID, Integer categoryID, Integer user_id, Double amount, String note,
       Long transactionDate) {
     this.transactionID = transactionID;
     this.categoryID = categoryID;
-    this.userID = userID;
+    this.user_id = user_id;
     this.amount = amount;
     this.note = note;
     this.transactionDate = transactionDate;
@@ -35,12 +35,12 @@ public class Transaction {
     this.categoryID = categoryID;
   }
 
-  public Integer getUserID() {
-    return userID;
+  public Integer getuser_id() {
+    return user_id;
   }
 
-  public void setUserID(Integer userID) {
-    this.userID = userID;
+  public void setuser_id(Integer user_id) {
+    this.user_id = user_id;
   }
 
   public Double getAmount() {

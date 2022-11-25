@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.expense.tracker.models.Transaction;
-import com.expense.tracker.services.TransactionService;
+import com.expense.tracker.services.transaction.TransactionService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class TransactionController {
  public ResponseEntity<Transaction> createTransaction(HttpServletRequest request,
    @PathVariable("categoryID") Integer categoryID, @RequestBody Map<String, Object> transactionMap) {
 
-  int userID = (Integer) request.getAttribute("userID");
+  int user_id = (Integer) request.getAttribute("user_id");
 
   Double amount = Double.valueOf(transactionMap.get("amount").toString());
 
@@ -32,7 +32,7 @@ public class TransactionController {
 
   Long transactionDate = (Long) transactionMap.get("transactionDate");
 
-  Transaction transaction = transactionService.createTransaction(userID, categoryID, amount, note, transactionDate);
+  Transaction transaction = transactionService.createTransaction(user_id, categoryID, amount, note, transactionDate);
 
   return new ResponseEntity<>(transaction, HttpStatus.CREATED);
  }
@@ -41,9 +41,9 @@ public class TransactionController {
  public ResponseEntity<List<Transaction>> getTransactions(HttpServletRequest request,
    @PathVariable("categoryID") Integer categoryID) {
 
-  int userID = (Integer) request.getAttribute("userID");
+  int user_id = (Integer) request.getAttribute("user_id");
 
-  List<Transaction> transactions = transactionService.getTransactions(userID, categoryID);
+  List<Transaction> transactions = transactionService.getTransactions(user_id, categoryID);
 
   return new ResponseEntity<>(transactions, HttpStatus.OK);
  }
@@ -52,9 +52,9 @@ public class TransactionController {
  public ResponseEntity<Transaction> getTransactionByID(HttpServletRequest request,
    @PathVariable("categoryID") Integer categoryID, @PathVariable("transactionID") Integer transactionID) {
 
-  int userID = (Integer) request.getAttribute("userID");
+  int user_id = (Integer) request.getAttribute("user_id");
 
-  Transaction transaction = transactionService.getTransactionByID(userID, categoryID, transactionID);
+  Transaction transaction = transactionService.getTransactionByID(user_id, categoryID, transactionID);
 
   return new ResponseEntity<>(transaction, HttpStatus.OK);
  }
@@ -64,9 +64,9 @@ public class TransactionController {
    @PathVariable("categoryID") Integer categoryID, @PathVariable("transactionID") Integer transactionID,
    @RequestBody Transaction transaction) {
 
-  int userID = (Integer) request.getAttribute("userID");
+  int user_id = (Integer) request.getAttribute("user_id");
 
-  transactionService.updateTransaction(userID, categoryID, transactionID, transaction);
+  transactionService.updateTransaction(user_id, categoryID, transactionID, transaction);
 
   Map<String, Boolean> map = new HashMap<>();
 
@@ -79,9 +79,9 @@ public class TransactionController {
  public ResponseEntity<Map<String, Boolean>> removeTransaction(HttpServletRequest request,
    @PathVariable("categoryID") Integer categoryID, @PathVariable("transactionID") Integer transactionID) {
 
-  int userID = (Integer) request.getAttribute("userID");
+  int user_id = (Integer) request.getAttribute("user_id");
 
-  transactionService.removeTransaction(userID, categoryID, transactionID);
+  transactionService.removeTransaction(user_id, categoryID, transactionID);
 
   Map<String, Boolean> map = new HashMap<>();
 

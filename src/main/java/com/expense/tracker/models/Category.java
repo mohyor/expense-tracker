@@ -2,14 +2,14 @@ package com.expense.tracker.models;
 
 public class Category {
  private Integer categoryID;
- private Integer userID;
+ private Integer user_id;
  private String title;
  private String description;
  private Double totalExpense;
 
- public Category(Integer categoryID, Integer userID, String title, String description, Double totalExpense) {
+ public Category(Integer categoryID, Integer user_id, String title, String description, Double totalExpense) {
   this.categoryID = categoryID;
-  this.userID = userID;
+  this.user_id = user_id;
   this.title = title;
   this.description = description;
   this.totalExpense = totalExpense;
@@ -23,12 +23,12 @@ public class Category {
   this.categoryID = categoryID;
  }
 
- public Integer getUserID() {
-  return userID;
+ public Integer getuser_id() {
+  return user_id;
  }
 
- public void setUserID(Integer userID) {
-  this.userID = userID;
+ public void setuser_id(Integer user_id) {
+  this.user_id = user_id;
  }
 
  public String getTitle() {

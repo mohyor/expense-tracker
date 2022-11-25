@@ -1,6 +1,6 @@
 package com.expense.tracker.repositories;
 
-import com.expense.tracker.repositories.CategoryRepository;
+import com.expense.tracker.repositories.category.CategoryRepository;
 
 import com.expense.tracker.models.Category;
 import com.expense.tracker.exceptions.BadRequestException;
@@ -23,23 +23,23 @@ import java.util.List;
 @Repository
 public class CategoryRepositoryImp implements CategoryRepository {
 
-        private static final String SQL_FIND_ALL = "SELECT c.categoryID, c.userID, c.title, c.description, "
+        private static final String SQL_FIND_ALL = "SELECT c.categoryID, c.user_id, c.title, c.description, "
                         + "COALESCE(SUM(t.amount), 0) total_expense"
                         + "FROM transactions t RIGHT OUTER JOIN categories c ON c.categoryID = t.categoryID"
-                        + "WHERE c.userID = ? GROUP BY c.categoryID";
+                        + "WHERE c.user_id = ? GROUP BY c.categoryID";
 
-        private static final String SQL_FIND_BY_ID = "SELECT c.categoryID, c.userID, c.title, c.description,"
+        private static final String SQL_FIND_BY_ID = "SELECT c.categoryID, c.user_id, c.title, c.description,"
                         + "COALESCE(SUM(t.amount), 0) total_expense"
                         + "FROM transactions t RIGHT OUTER JOIN categories c ON c.categoryID = t.categoryID"
-                        + "WHERE c.userID = ? AND c.categoryID = ? GROUP BY c.categoryID";
+                        + "WHERE c.user_id = ? AND c.categoryID = ? GROUP BY c.categoryID";
 
-        private static final String SQL_CREATE = "INSERT INTO categories (categoryID, userID, title, description)"
+        private static final String SQL_CREATE = "INSERT INTO categories (categoryID, user_id, title, description)"
                         + "VALUES(nextval('categoriesSEQ'), ?, ?, ?)";
 
         private static final String SQL_UPDATE = "UPDATE categories SET title = ?, description = ?"
-                        + "WHERE userID = ? AND categoryID = ?";
+                        + "WHERE user_id = ? AND categoryID = ?";
 
-        private static final String SQL_DELETE_CATEGORY = "DELETE FROM categories WHERE userID = ? AND categoryID = ?";
+        private static final String SQL_DELETE_CATEGORY = "DELETE FROM categories WHERE user_id = ? AND categoryID = ?";
 
         private static final String SQL_DELETE_TRANSACTIONS = "DELETE FROM transactions WHERE categoryID = ?";
 
@@ -49,21 +49,21 @@ public class CategoryRepositoryImp implements CategoryRepository {
         private RowMapper<Category> categoryRowMapper = ((rs, rowNum) -> {
                 return new Category(
                                 rs.getInt("categoryID"),
-                                rs.getInt("userID"),
+                                rs.getInt("user_id"),
                                 rs.getString("title"),
                                 rs.getString("description"),
                                 rs.getDouble("totalExpense"));
         });
 
         @Override
-        public List<Category> findAll(Integer userID) throws ResourceNotFoundException {
-                return jdbcTemplate.query(SQL_FIND_ALL, new Object[] { userID }, categoryRowMapper);
+        public List<Category> findAll(Integer user_id) throws ResourceNotFoundException {
+                return jdbcTemplate.query(SQL_FIND_ALL, new Object[] { user_id }, categoryRowMapper);
         }
 
         @Override
-        public Category findByID(Integer userID, Integer categoryID) throws ResourceNotFoundException {
+        public Category findByID(Integer user_id, Integer categoryID) throws ResourceNotFoundException {
                 try {
-                        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[] { userID, categoryID },
+                        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[] { user_id, categoryID },
                                         categoryRowMapper);
                 } catch (Exception e) {
                         throw new ResourceNotFoundException("Category not found");
@@ -71,13 +71,13 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
 
         @Override
-        public Integer create(Integer userID, String title, String description) throws BadRequestException {
+        public Integer create(Integer user_id, String title, String description) throws BadRequestException {
                 try {
                         KeyHolder keyHolder = new GeneratedKeyHolder();
                         jdbcTemplate.update(connection -> {
                                 PreparedStatement ps = connection.prepareStatement(SQL_CREATE,
                                                 Statement.RETURN_GENERATED_KEYS);
-                                ps.setInt(1, userID);
+                                ps.setInt(1, user_id);
                                 ps.setString(2, title);
                                 ps.setString(3, description);
 
@@ -91,19 +91,19 @@ public class CategoryRepositoryImp implements CategoryRepository {
         }
 
         @Override
-        public void update(Integer userID, Integer categoryID, Category category) throws BadRequestException {
+        public void update(Integer user_id, Integer categoryID, Category category) throws BadRequestException {
                 try {
                         jdbcTemplate.update(SQL_UPDATE, new Object[] { category.getTitle(), category.getDescription(),
-                                        userID, categoryID });
+                                        user_id, categoryID });
                 } catch (Exception e) {
                         throw new BadRequestException("Invalid Request");
                 }
         }
 
         @Override
-        public void removeByID(Integer userID, Integer categoryID) {
+        public void removeByID(Integer user_id, Integer categoryID) {
                 this.removeAllCatTransactions(categoryID);
-                jdbcTemplate.update(SQL_DELETE_CATEGORY, new Object[] { userID, categoryID });
+                jdbcTemplate.update(SQL_DELETE_CATEGORY, new Object[] { user_id, categoryID });
         }
 
         private void removeAllCatTransactions(Integer categoryID) {

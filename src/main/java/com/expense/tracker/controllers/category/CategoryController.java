@@ -1,7 +1,7 @@
 package com.expense.tracker.controllers;
 
 import com.expense.tracker.models.Category;
-import com.expense.tracker.services.CategoryService;
+import com.expense.tracker.services.category.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,13 +25,13 @@ public class CategoryController {
   @PostMapping("")
   public ResponseEntity<Category> addCategory(HttpServletRequest req, @RequestBody Map<String, Object> categoryMap) {
 
-    int userID = (Integer) req.getAttribute("userID");
+    int user_id = (Integer) req.getAttribute("user_id");
 
     String title = (String) categoryMap.get("title");
 
     String description = (String) categoryMap.get("description");
 
-    Category category = categoryService.addCategory(userID, title, description);
+    Category category = categoryService.addCategory(user_id, title, description);
 
     return new ResponseEntity<>(category, HttpStatus.CREATED);
   }
@@ -39,9 +39,9 @@ public class CategoryController {
   @GetMapping("")
   public ResponseEntity<List<Category>> getAllCategories(HttpServletRequest req) {
 
-    int userID = (Integer) req.getAttribute("userID");
+    int user_id = (Integer) req.getAttribute("user_id");
 
-    List<Category> categories = categoryService.fetchAllCategories(userID);
+    List<Category> categories = categoryService.fetchAllCategories(user_id);
 
     return new ResponseEntity<>(categories, HttpStatus.OK);
   }
@@ -50,9 +50,9 @@ public class CategoryController {
   public ResponseEntity<Category> getCategoryByID(HttpServletRequest req,
       @PathVariable("categoryID") Integer categoryID) {
 
-    int userID = (Integer) req.getAttribute("userID");
+    int user_id = (Integer) req.getAttribute("user_id");
 
-    Category category = categoryService.fetchCategoryByID(userID, categoryID);
+    Category category = categoryService.fetchCategoryByID(user_id, categoryID);
 
     return new ResponseEntity<>(category, HttpStatus.OK);
   }
@@ -61,9 +61,9 @@ public class CategoryController {
   public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest req,
       @PathVariable("categoryID") Integer categoryID, @RequestBody Category category) {
 
-    int userID = (Integer) req.getAttribute("userID");
+    int user_id = (Integer) req.getAttribute("user_id");
 
-    categoryService.updateCategory(userID, categoryID, category);
+    categoryService.updateCategory(user_id, categoryID, category);
 
     Map<String, Boolean> map = new HashMap<>();
 
@@ -76,9 +76,9 @@ public class CategoryController {
   public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest req,
       @PathVariable("categoryID") Integer categoryID) {
 
-    int userID = (Integer) req.getAttribute("userID");
+    int user_id = (Integer) req.getAttribute("user_id");
 
-    categoryService.removeCategoryWithAllTransactions(userID, categoryID);
+    categoryService.removeCategoryWithAllTransactions(user_id, categoryID);
 
     Map<String, Boolean> map = new HashMap<>();
 

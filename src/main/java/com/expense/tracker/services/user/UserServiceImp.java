@@ -2,13 +2,14 @@ package com.expense.tracker.services;
 
 import com.expense.tracker.models.User;
 import com.expense.tracker.exceptions.AuthException;
-import com.expense.tracker.repositories.UserRepository;
+import com.expense.tracker.repositories.user.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.regex.Pattern;
+import java.lang.System;
 
 @Service
 @Transactional
@@ -28,7 +29,7 @@ public class UserServiceImp implements UserService {
  }
 
  @Override
- public User registerUser(String firstName, String lastName, String email, String password) throws AuthException {
+ public User registerUser(String firstname, String lastname, String email, String password) throws AuthException {
 
   Pattern pattern = Pattern.compile("^(.+)@(.+)$");
 
@@ -46,8 +47,8 @@ public class UserServiceImp implements UserService {
    throw new AuthException("Email already exists");
   }
 
-  Integer userID = userRepository.create(firstName, lastName, email, password);
+  Integer user_id = userRepository.create(firstname, lastname, email, password);
 
-  return userRepository.findByID(userID);
+  return userRepository.findByID(user_id);
  }
 }

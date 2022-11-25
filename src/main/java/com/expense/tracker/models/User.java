@@ -1,42 +1,42 @@
 package com.expense.tracker.models;
 
 public class User {
- private Integer userID;
- private String firstName;
- private String lastName;
+ private Integer user_id;
+ private String firstname;
+ private String lastname;
  private String email;
  private String password;
 
- public User(Integer userID, String firstName, String lastName, String email, String password) {
-  this.userID = userID;
-  this.firstName = firstName;
-  this.lastName = lastName;
+ public User(Integer user_id, String firstname, String lastname, String email, String password) {
+  this.user_id = user_id;
+  this.firstname = firstname;
+  this.lastname = lastname;
   this.email = email;
   this.password = password;
  }
 
- public Integer getUserID() {
-  return userID;
+ public Integer getuser_id() {
+  return user_id;
  }
 
- public void setUserID(Integer userID) {
-  this.userID = userID;
+ public void setuser_id(Integer user_id) {
+  this.user_id = user_id;
  }
 
- public String getFirstName() {
-  return firstName;
+ public String getfirstname() {
+  return firstname;
  }
 
- public void setFirstName(String firstName) {
-  this.firstName = firstName;
+ public void setfirstname(String firstname) {
+  this.firstname = firstname;
  }
 
- public String getLastName() {
-  return lastName;
+ public String getlastname() {
+  return lastname;
  }
 
- public void setLastName(String lastName) {
-  this.lastName = lastName;
+ public void setlastname(String lastname) {
+  this.lastname = lastname;
  }
 
  public String getEmail() {
