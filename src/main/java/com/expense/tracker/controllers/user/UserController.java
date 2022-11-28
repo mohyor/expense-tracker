@@ -1,4 +1,4 @@
-package com.expense.tracker.controllers;
+package com.expense.tracker.controllers.user;
 
 import com.expense.tracker.helpers.Constants;
 import com.expense.tracker.models.User;
@@ -42,7 +42,7 @@ public class UserController {
         .setIssuedAt(new Date(timeStamp))
         .setExpiration(new Date(timeStamp + Constants.TOKEN_VALIDITY))
 
-        .claim("user_id", user.getuser_id())
+        .claim("user_id", user.getUserID())
         .claim("email", user.getEmail())
         .claim("firstname", user.getfirstname())
         .claim("lastname", user.getlastname())
@@ -56,7 +56,9 @@ public class UserController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
+  public ResponseEntity<User> registerUser(@RequestBody Map<String, Object> userMap) {
+    // public ResponseEntity<Map<String, String>> registerUser(@RequestBody
+    // Map<String, Object> userMap) {
 
     String firstname = (String) userMap.get("firstname");
 
@@ -68,7 +70,10 @@ public class UserController {
 
     User user = userService.registerUser(firstname, lastname, email, password);
 
-    return new ResponseEntity<User>(user, HttpStatus.OK);
+    return new ResponseEntity<>(user, HttpStatus.OK);
+    // return ResponseHandler.generateResponse("User Registered!", HttpStatus.OK,
+    // user);
+    // return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
   }
 
   @PostMapping("/login")
@@ -83,82 +88,97 @@ public class UserController {
 }
 
 /*
-
-package com.CRUD.demo.controllers;
-
-import com.CRUD.demo.entities.UserEntity;
-import com.CRUD.demo.repositories.UserRepository;
-import com.CRUD.demo.response.ResponseHandler;
-import com.CRUD.demo.services.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-public class UserController {
-    private final UserService userService;
-
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-    }
-
-    // Add
-    @PostMapping(value = "/users")
-    public ResponseEntity<Object> Post(@RequestBody UserEntity params) {
-        try {
-            UserEntity result = userService.Post(params);
-            return ResponseHandler.generateResponse("Successfully added data!", HttpStatus.OK, result);
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-        }
-
-    }
-
-    // Get
-    @GetMapping(value = "/users")
-    public ResponseEntity<Object> Get() {
-        try {
-            List<UserEntity> result = userService.Get();
-            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, result);
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-        }
-    }
-
-    // Get By ID
-    @GetMapping(value = "/users/{id}")
-    public ResponseEntity<Object> Get(@PathVariable int id) {
-        try {
-            UserEntity result = userService.Get(id);
-            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, result);
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-        }
-    }
-
-    // Update
-    @PutMapping(value = "/users/{id}")
-    public ResponseEntity<Object> Update(@PathVariable int id, @RequestBody UserEntity params) {
-        try {
-            UserEntity result = userService.Update(params, id);
-            return ResponseHandler.generateResponse("Updated", HttpStatus.OK, result);
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-        }
-    }
-
-    // Delete
-    @DeleteMapping(value = "/users/{id}")
-    public ResponseEntity<Object> Delete(@PathVariable int id) {
-        try {
-            String result = userService.Delete(id);
-            return ResponseHandler.generateResponse("Deleted!", HttpStatus.OK, result);
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-        }
-    }
-
-}
-*/
+ * 
+ * package com.CRUD.demo.controllers;
+ * 
+ * import com.CRUD.demo.entities.UserEntity;
+ * import com.CRUD.demo.repositories.UserRepository;
+ * import com.CRUD.demo.response.ResponseHandler;
+ * import com.CRUD.demo.services.UserService;
+ * import org.springframework.http.HttpStatus;
+ * import org.springframework.http.ResponseEntity;
+ * import org.springframework.web.bind.annotation.*;
+ * 
+ * import java.util.List;
+ * 
+ * @RestController
+ * public class UserController {
+ * private final UserService userService;
+ * 
+ * public UserController(UserService userService, UserRepository userRepository)
+ * {
+ * this.userService = userService;
+ * }
+ * 
+ * // Add
+ * 
+ * @PostMapping(value = "/users")
+ * public ResponseEntity<Object> Post(@RequestBody UserEntity params) {
+ * try {
+ * UserEntity result = userService.Post(params);
+ * return ResponseHandler.generateResponse("Successfully added data!",
+ * HttpStatus.OK, result);
+ * } catch (Exception e) {
+ * return ResponseHandler.generateResponse(e.getMessage(),
+ * HttpStatus.MULTI_STATUS, null);
+ * }
+ * 
+ * }
+ * 
+ * // Get
+ * 
+ * @GetMapping(value = "/users")
+ * public ResponseEntity<Object> Get() {
+ * try {
+ * List<UserEntity> result = userService.Get();
+ * return ResponseHandler.generateResponse("Successfully retrieved data!",
+ * HttpStatus.OK, result);
+ * } catch (Exception e) {
+ * return ResponseHandler.generateResponse(e.getMessage(),
+ * HttpStatus.MULTI_STATUS, null);
+ * }
+ * }
+ * 
+ * // Get By ID
+ * 
+ * @GetMapping(value = "/users/{id}")
+ * public ResponseEntity<Object> Get(@PathVariable int id) {
+ * try {
+ * UserEntity result = userService.Get(id);
+ * return ResponseHandler.generateResponse("Successfully retrieved data!",
+ * HttpStatus.OK, result);
+ * } catch (Exception e) {
+ * return ResponseHandler.generateResponse(e.getMessage(),
+ * HttpStatus.MULTI_STATUS, null);
+ * }
+ * }
+ * 
+ * // Update
+ * 
+ * @PutMapping(value = "/users/{id}")
+ * public ResponseEntity<Object> Update(@PathVariable int id, @RequestBody
+ * UserEntity params) {
+ * try {
+ * UserEntity result = userService.Update(params, id);
+ * return ResponseHandler.generateResponse("Updated", HttpStatus.OK, result);
+ * } catch (Exception e) {
+ * return ResponseHandler.generateResponse(e.getMessage(),
+ * HttpStatus.MULTI_STATUS, null);
+ * }
+ * }
+ * 
+ * // Delete
+ * 
+ * @DeleteMapping(value = "/users/{id}")
+ * public ResponseEntity<Object> Delete(@PathVariable int id) {
+ * try {
+ * String result = userService.Delete(id);
+ * return ResponseHandler.generateResponse("Deleted!", HttpStatus.OK, result);
+ * } catch (Exception e) {
+ * return ResponseHandler.generateResponse(e.getMessage(),
+ * HttpStatus.MULTI_STATUS, null);
+ * }
+ * }
+ * 
+ * }
+ */

@@ -1,4 +1,4 @@
-package com.expense.tracker.repositories;
+package com.expense.tracker.repositories.transaction;
 
 import com.expense.tracker.models.Transaction;
 import com.expense.tracker.repositories.transaction.TransactionRepository;

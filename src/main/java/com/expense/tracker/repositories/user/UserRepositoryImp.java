@@ -1,4 +1,4 @@
-package com.expense.tracker.repositories;
+package com.expense.tracker.repositories.user;
 
 import com.expense.tracker.exceptions.AuthException;
 import com.expense.tracker.models.User;

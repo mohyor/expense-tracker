@@ -1,4 +1,4 @@
-package com.expense.tracker.services;
+package com.expense.tracker.services.user;
 
 import com.expense.tracker.models.User;
 import com.expense.tracker.exceptions.AuthException;
@@ -22,6 +22,7 @@ public class UserServiceImp implements UserService {
  public User validateUser(String email, String password) throws AuthException {
 
   if (email != null) {
+
    email = email.toLowerCase();
   }
 
@@ -34,21 +35,25 @@ public class UserServiceImp implements UserService {
   Pattern pattern = Pattern.compile("^(.+)@(.+)$");
 
   if (email != null) {
+
    email = email.toLowerCase();
   }
 
   if (!pattern.matcher(email).matches()) {
+
    throw new AuthException("Invalid email format.");
   }
 
   Integer count = userRepository.getCountByEmail(email);
 
   if (count > 0) {
+
    throw new AuthException("Email already exists");
   }
 
   Integer user_id = userRepository.create(firstname, lastname, email, password);
 
   return userRepository.findByID(user_id);
+  System.out.println(userRepository.findByID(user_id));
  }
 }

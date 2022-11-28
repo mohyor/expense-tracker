@@ -15,11 +15,11 @@ public class User {
   this.password = password;
  }
 
- public Integer getuser_id() {
+ public Integer getUserID() {
   return user_id;
  }
 
- public void setuser_id(Integer user_id) {
+ public void setUserID(Integer user_id) {
   this.user_id = user_id;
  }
 

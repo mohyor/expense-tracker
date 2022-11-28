@@ -1,4 +1,4 @@
-package com.expense.tracker.services;
+package com.expense.tracker.services.category;
 
 import com.expense.tracker.models.Category;
 import com.expense.tracker.exceptions.BadRequestException;

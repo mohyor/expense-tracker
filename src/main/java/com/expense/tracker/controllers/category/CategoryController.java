@@ -1,4 +1,4 @@
-package com.expense.tracker.controllers;
+package com.expense.tracker.controllers.category;
 
 import com.expense.tracker.models.Category;
 import com.expense.tracker.services.category.CategoryService;

@@ -1,4 +1,4 @@
-package com.expense.tracker.repositories;
+package com.expense.tracker.repositories.category;
 
 import com.expense.tracker.repositories.category.CategoryRepository;
 
